@@ -1,0 +1,108 @@
+<div *ngIf="mostrarSucesso" class="popup-sucesso">
+  Usuário deletado com sucesso!
+</div>
+
+<div *ngIf="mostrarConfirmacao" class="popup-confirmacao">
+  <div class="popup-box">
+    <p>Você realmente deseja excluir o usuário?</p>
+    <button class="cancelar" (click)="cancelarCriacao()">Cancelar</button>
+    <button class="confirmar" (click)="confirmarCriacao()">Sim</button>
+  </div>
+</div>
+
+<div class="profile-container">
+  <!-- Sidebar -->
+  <div class="profile-sidebar">
+    <div class="profile-photo-card">
+      <div class="photo-placeholder"></div>
+      <div class="name">Lucas Tri Nascimento</div>
+    </div>
+
+    <div class="profile-permissions">
+      <div class="title">Permissões</div>
+      <button class="option" (click)="goAcesspage()" routerLink="/acessos">Acessos</button>
+      <button type="button" class="option usuarios-btn" (click)="toggleUsuariosSubmenu()"
+        [attr.aria-expanded]="isUsuariosSubmenuVisible" aria-haspopup="true">
+        Usuários
+        <span class="caret" [class.open]="isUsuariosSubmenuVisible">▾</span>
+      </button>
+
+      <div *ngIf="isUsuariosSubmenuVisible" class="submenu" role="menu">
+        <button type="button" (click)="goAddUserPage()" class="sub-option">Adicionar Usuário</button>
+        <button type="button" (click)="goEditUserPage()" class="sub-option">Editar Usuário</button>
+      </div>
+
+      <button type="button" class="option usuarios-btn" (click)="toggleGruposSubmenu()"
+        [attr.aria-expanded]="isGruposSubmenuVisible" aria-haspopup="true">
+        Grupos de Usuário
+        <span class="caret" [class.open]="isGruposSubmenuVisible">▾</span>
+      </button>
+
+      <div *ngIf="isGruposSubmenuVisible" class="submenu" role="menu">
+        <button type="button" (click)="goAddGroupPage()" class="sub-option">Adicionar Grupo</button>
+        <button type="button" (click)="goEditGroupPage()" class="sub-option">Editar Grupo</button>
+        <button type="button" (click)="goDeleteGroupPage()" class="sub-option">Deletar Grupo</button>
+      </div>
+    </div>
+
+    <div class="profile-security">
+      <div class="title">Segurança</div>
+      <button class="option" (click)="abrirModalSenha()">Alterar Senha</button>
+    </div>
+  </div>
+
+  <!-- Conteúdo -->
+  <div class="profile-content">
+    <div class="card-editar">
+      <h2>EXCLUIR USUÁRIO</h2>
+
+      <!-- Seletor de usuário -->
+      <div class="form-group">
+        <label for="usuario">Usuário</label>
+        <select id="usuario" [(ngModel)]="usuarioSelecionado" (change)="carregarDados()">
+          <option value="" disabled selected hidden>Selecione</option>
+          <option *ngFor="let u of usuarios" [value]="u.nome">{{ u.nome }}</option>
+        </select>
+      </div>
+
+      <!-- Campos só aparecem após seleção -->
+      <div *ngIf="usuarioSelecionado">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="text" [value]="emailSelecionado" disabled />
+          </div>
+          <div class="form-group status">
+            <label>Situação:</label>
+            <span [ngClass]="usuarioAtivo ? 'ativo' : 'inativo'">
+              {{ usuarioAtivo ? 'ATIVO' : 'INATIVO' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>CPF</label>
+            <input type="text" [value]="cpfSelecionado" disabled />
+          </div>
+          <div class="form-group">
+            <label>MASP</label>
+            <input type="text" [value]="maspSelecionado" disabled />
+          </div>
+        </div>
+
+        <!-- Confirmação -->
+        <div class="form-group">
+          <label for="senha">Digite sua senha para confirmar</label>
+          <input type="password" id="senha" [(ngModel)]="senhaConfirmacao" placeholder="Senha" [disabled]="formDisabled" />
+        </div>
+
+        <!-- Botão -->
+        <button class="btn-salvar btn-excluir" (click)="abrirConfirmacao()"
+          [disabled]="!formValido() || formDisabled">
+          EXCLUIR USUÁRIO
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

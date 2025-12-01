@@ -1,0 +1,207 @@
+
+:host {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(180deg, #e7e7e7, #cfc4c5);
+}
+
+/* Container central */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Caixa central */
+.login-box {
+  background: rgb(255, 255, 255);
+  border: 1px solid black;
+  backdrop-filter: blur(10px);
+  padding: 35px 40px;
+  border-radius: 24px;
+  width: 320px;
+  height: 560px;
+  text-align: center;
+  color: black;
+}
+
+/* Títulos */
+.title {
+  color: rgb(0, 0, 0);
+  margin-bottom: 50px;
+  margin-top: 5px;
+  font-size: 30px;
+}
+
+/* Labels */
+.login-box label {
+  display: block;
+  text-align: left;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  position: relative;
+}
+
+/* Inputs */
+.login-box input {
+  width: 93%;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  border-bottom: 1px solid #ddd;;
+  margin-bottom: 30px;
+  outline: none;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+/* Link esqueceu senha */
+.forgot-password {
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  transition: color 0.2s ease; /* suaviza a troca de cor */
+}
+
+.forgot-password:hover {
+  color: rgb(185, 4, 4); /* cinza mais claro no hover */
+}
+
+/* Botão entrar */
+.btn-login {
+  width: 100%;
+  background: #600000;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.btn-login:hover {
+  background: #900000;
+}
+
+/* Texto divisor */
+.divider {
+  font-size: 15px;
+  margin: 10px 0;
+  color: rgb(0, 0, 0);
+}
+
+/* Botão alternativo */
+.btn-alt {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: white;
+  color: black;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.btn-alt:hover {
+  background: #eee;
+}
+
+.azure-icon {
+  height: 18px; /* ajuste conforme necessário */
+  object-fit: contain;
+}
+
+/* Texto criar conta */
+.signup-text {
+  font-size: 12px;
+  color: black;
+  margin-bottom: 15px;
+}
+
+.signup-text a {
+  color: blue;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Logo */
+.logo {
+  margin-top: 10px;
+  width: 180px;
+}
+
+/*------------------VALIDAÇÃO-------------------------*/
+
+.input-error {
+  border-bottom: 2px solid red !important;
+}
+
+/* Mensagem de erro */
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: -22px;
+  margin-bottom: -10px;
+  text-align: left;
+  position: absolute;
+}
+
+/*------------------POPUP-------------------------*/
+
+.popup-sucesso {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #4caf50;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  animation: fadeInOut 2s forwards;
+}
+
+.popup-erro {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #f44336;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  animation: fadeInOut 2s forwards;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+

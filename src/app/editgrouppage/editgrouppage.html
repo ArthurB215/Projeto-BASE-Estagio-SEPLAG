@@ -1,0 +1,144 @@
+<div *ngIf="mostrarSucesso" class="popup-sucesso">
+  Grupo alterado com sucesso!
+</div>
+
+<div *ngIf="mostrarConfirmacao" class="popup-confirmacao">
+  <div class="popup-box">
+    <p>Você realmente deseja salvar estas alterações?</p>
+    <button class="cancelar" (click)="cancelarCriacao()">Cancelar</button>
+    <button class="confirmar" (click)="confirmarCriacao()">Sim</button>
+  </div>
+</div>
+
+<div class="profile-container">
+  <!-- Sidebar (já existente) -->
+  <div class="profile-sidebar">
+    <div class="profile-photo-card">
+      <div class="photo-placeholder"></div>
+      <div class="name">Lucas Tri Nascimento</div>
+    </div>
+
+    <div class="profile-permissions">
+      <div class="title">Permissões</div>
+      <button class="option" (click)="goAcesspage()" routerLink="/acessos">Acessos</button>
+      <button type="button" class="option usuarios-btn" (click)="toggleUsuariosSubmenu()"
+        [attr.aria-expanded]="isUsuariosSubmenuVisible" aria-haspopup="true">
+        Usuários
+        <span class="caret" [class.open]="isUsuariosSubmenuVisible">▾</span>
+      </button>
+
+      <div *ngIf="isUsuariosSubmenuVisible" class="submenu" role="menu">
+        <button type="button" (click)="goAddUserPage()" class="sub-option">Adicionar Usuário</button>
+        <button type="button" (click)="goEditUserPage()" class="sub-option">Editar Usuário</button>
+        <button type="button" (click)="goDeleteUser()" class="sub-option">Excluir Usuário</button>
+      </div>
+
+      <button type="button" class="option usuarios-btn" (click)="toggleGruposSubmenu()"
+        [attr.aria-expanded]="isGruposSubmenuVisible" aria-haspopup="true">
+        Grupos de Usuário
+        <span class="caret" [class.open]="isGruposSubmenuVisible">▾</span>
+      </button>
+
+      <div *ngIf="isGruposSubmenuVisible" class="submenu" role="menu">
+        <button type="button" (click)="goAddGroupPage()" class="sub-option">Adicionar Grupo</button>
+        <button type="button" (click)="goDeleteGroupPage()" class="sub-option">Deletar Grupo</button>
+      </div>
+    </div>
+
+    <div class="profile-security">
+      <div class="title">Segurança</div>
+      <button class="option" (click)="abrirModalSenha()">Alterar Senha</button>
+    </div>
+  </div>
+
+  <div class="profile-content">
+    <div class="card-add-group">
+      <h2>EDITAR GRUPO</h2>
+
+      <div class="form-section">
+        <label for="groupSelect">Selecione o Grupo</label>
+        <select id="groupSelect" [(ngModel)]="grupoSelecionado" (change)="carregarGrupo()" class="styled-select"
+          [disabled]="formDisabled">
+          <option value="" disabled selected hidden>Selecione</option>
+          <option *ngFor="let grupo of grupos" [value]="grupo.id">{{ grupo.nome }}</option>
+        </select>
+      </div>
+
+      <!-- Acessos -->
+      <div class="form-section" *ngIf="grupoSelecionado">
+        <h3>Acessos</h3>
+        <div class="checkbox-grid">
+          <label><input type="checkbox" [(ngModel)]="acessosCheckbox['FiscWeb']" [disabled]="formDisabled" />
+            FiscWeb</label>
+          <label><input type="checkbox" [(ngModel)]="acessosCheckbox['SevicosCA']" [disabled]="formDisabled" />
+            SevicosCA</label>
+          <label><input type="checkbox" [(ngModel)]="acessosCheckbox['Ratear+']" [disabled]="formDisabled" />
+            Ratear+</label>
+          <label><input type="checkbox" [(ngModel)]="acessosCheckbox['Radar Patrimonio']" [disabled]="formDisabled" />
+            Radar Patrimonio</label>
+          <label><input type="checkbox" [(ngModel)]="acessosCheckbox['Teste']" [disabled]="formDisabled" />
+            Teste</label>
+          <label><input type="checkbox" [(ngModel)]="acessosCheckbox['Example']" [disabled]="formDisabled" />
+            Example</label>
+          <label><input type="checkbox" [(ngModel)]="acessosCheckbox['PortalCA']" [disabled]="formDisabled" />
+            PortalCA</label>
+        </div>
+      </div>
+
+      <!-- Permissões -->
+      <div class="form-section" *ngIf="grupoSelecionado">
+        <h3>Permissões</h3>
+        <div class="checkbox-grid">
+          <label><input type="checkbox" [(ngModel)]="permissoesCheckbox['Remover Usuário']" [disabled]="formDisabled" />
+            Remover Usuário</label>
+          <label><input type="checkbox" [(ngModel)]="permissoesCheckbox['Adicionar Usuário']"
+              [disabled]="formDisabled" /> Adicionar Usuário</label>
+          <label><input type="checkbox" [(ngModel)]="permissoesCheckbox['Adicionar Grupo']" [disabled]="formDisabled" />
+            Adicionar Grupo</label>
+          <label><input type="checkbox" [(ngModel)]="permissoesCheckbox['Remover Grupo']" [disabled]="formDisabled" />
+            Remover Grupo</label>
+          <label><input type="checkbox" [(ngModel)]="permissoesCheckbox['Editar Usuário']" [disabled]="formDisabled" />
+            Editar Usuário</label>
+          <label><input type="checkbox" [(ngModel)]="permissoesCheckbox['Example']" [disabled]="formDisabled" />
+            Example</label>
+          <label><input type="checkbox" [(ngModel)]="permissoesCheckbox['Teste de Validação']"
+              [disabled]="formDisabled" /> Teste de Validação</label>
+        </div>
+      </div>
+
+      <!-- Senha -->
+      <div class="form-section" *ngIf="grupoSelecionado">
+        <label for="senhaConfirm">Digite sua senha para confirmar</label>
+        <input id="senhaConfirm" type="password" [(ngModel)]="senhaConfirmacao" [disabled]="formDisabled"
+          placeholder="Senha" />
+      </div>
+
+      <div *ngIf="grupoSelecionado">
+        <button class="btn-create-group" (click)="abrirConfirmacao()" [disabled]="!formValido() || formDisabled">SALVAR
+          ALTERAÇÕES</button>
+      </div>
+    </div>
+
+    <div class="modal-overlay" *ngIf="mostrarModalSenha">
+      <div class="modal-content">
+        <h3>Recuperar Senha</h3>
+        <p>Digite seu email para receber o link de redefinição:</p>
+
+        <input type="email" [(ngModel)]="emailRecuperacao" placeholder="Digite seu email"
+          [disabled]="modalProcessando" />
+
+        <div class="modal-buttons">
+          <button class="btn-confirm" (click)="enviarEmailRecuperacao()"
+            [disabled]="!emailValidoRecuperacao() || modalProcessando">
+            Enviar
+          </button>
+          <button class="btn-cancel" (click)="fecharModalSenha()" [disabled]="modalProcessando">
+            Cancelar
+          </button>
+        </div>
+
+        <div *ngIf="modalSucesso" class="modal-success">
+          📧 Se este email estiver cadastrado, você receberá um link para redefinir sua senha.
+        </div>
+      </div>
+    </div>

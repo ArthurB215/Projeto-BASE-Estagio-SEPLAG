@@ -1,0 +1,62 @@
+<!-- POPUPS -->
+<div *ngIf="mostrarSucesso" class="popup-sucesso">
+  Login realizado com sucesso!
+</div>
+
+<div *ngIf="mostrarErro" class="popup-erro">
+  Falha ao realizar login.
+</div>
+
+<div class="login-container">
+  <div class="login-box">
+    <h2 class="title">Seu login</h2>
+
+    <form (ngSubmit)="onSubmit($event)">
+      <label>Email:</label>
+      <input
+        type="email"
+        [(ngModel)]="email"
+        name="email"
+        required
+        placeholder="11122233@ca.mg.gov.br"
+        (blur)="emailTouched = true"
+        [ngClass]="{'input-error': emailTouched && !emailValido()}"
+      />
+      <div *ngIf="emailTouched && !emailValido()" class="error-message">
+        Por favor, insira um email válido.
+      </div>
+
+      <label>Senha:</label>
+      <input
+        type="password"
+        [(ngModel)]="senha"
+        name="senha"
+        required
+        placeholder="123456789"
+        (blur)="senhaTouched = true"
+        [ngClass]="{'input-error': senhaTouched && !senha}"
+      />
+      <div *ngIf="senhaTouched && !senha" class="error-message">
+        Por favor, insira sua senha.
+      </div>
+
+      <a href="#" class="forgot-password">Esqueceu sua senha?</a>
+
+      <button type="submit" class="btn-login" [disabled]="!emailValido() || !senha">
+        Entrar
+      </button>
+
+      <p class="divider">ou continue com</p>
+
+      <button type="button" class="btn-alt">
+        <img src="./imgs/azure.png" alt="Entrar com Azure" class="azure-icon">
+      </button>
+
+      <p class="signup-text">
+        Não tem uma conta ainda? <a href="#">Crie uma!</a>
+      </p>
+    </form>
+
+    <img src="./imgs/logoMG.png" alt="Logo Minas Gerais" class="logo">
+  </div>
+</div>

@@ -1,0 +1,137 @@
+<div class="profile-container">
+  <!-- Coluna esquerda -->
+  <div class="profile-sidebar">
+    <!-- Foto + nome -->
+    <div class="profile-photo-card">
+      <div class="photo-placeholder"></div>
+      <div class="name">Lucas Tri Nascimento</div>
+    </div>
+
+    <!-- Segurança -->
+    <div class="profile-security">
+      <div class="title">Segurança</div>
+      <button class="option" (click)="abrirModalSenha()">Alterar Senha</button>
+    </div>
+  </div>
+
+  <!-- Coluna direita -->
+  <div class="profile-content">
+    <!-- Dados pessoais -->
+    <div class="profile-content">
+      <!-- Card: Dados pessoais -->
+      <div class="card">
+        <div class="card-header">
+          <div class="title">DADOS PESSOAIS</div>
+
+          <!-- wrapper absoluto à direita -->
+          <div class="actions">
+            <!-- lápis (visível quando não está editando) -->
+            <button class="icon-button" *ngIf="!isEditingPessoais" (click)="startEdit('pessoais')"
+              aria-label="Editar dados pessoais">✎</button>
+
+            <!-- confirmar / cancelar (quando em edição) -->
+            <div class="icon-actions" *ngIf="isEditingPessoais">
+              <button class="icon-button confirm" (click)="confirmEdit('pessoais')" aria-label="Confirmar">✔</button>
+              <button class="icon-button cancel" (click)="cancelEdit('pessoais')" aria-label="Cancelar">✖</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <!-- Exemplo: nome em modo edição -->
+          <div class="row">
+            <div class="col">
+              <div class="label">Nome:</div>
+              <div class="value" *ngIf="!isEditingPessoais">Lucas Tri Nascimento Costa</div>
+              <input *ngIf="isEditingPessoais" type="text" value="Lucas Tri Nascimento Costa" />
+            </div>
+            <div class="col">
+              <div class="label">Situação:</div>
+              <div class="value ativo">ATIVO</div>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="row">
+            <div class="col full">
+              <div class="label">Email:</div>
+              <div class="value" *ngIf="!isEditingPessoais">lucasexample@planejamento.mg.gov.br</div>
+              <input *ngIf="isEditingPessoais" type="email" value="lucasexample@planejamento.mg.gov.br" />
+            </div>
+          </div>
+
+          <!-- CPF e MASP -->
+          <div class="row">
+            <div class="col">
+              <div class="label">CPF:</div>
+              <div class="value" *ngIf="!isEditingPessoais">999.999.999-00</div>
+              <input *ngIf="isEditingPessoais" type="text" value="999.999.999-00" />
+            </div>
+            <div class="col">
+              <div class="label">MASP:</div>
+              <div class="value" *ngIf="!isEditingPessoais">9999999-0</div>
+              <input *ngIf="isEditingPessoais" type="text" value="9999999-0" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dados trabalhistas -->
+      <div class="card">
+        <div class="card-header">
+          <div class="title">DADOS TRABALHISTAS</div>
+        </div>
+
+        <div class="card-body">
+          <div class="row">
+            <div class="col full">
+              <div class="label">Secretaria/Órgão:</div>
+              <div class="value">
+                Secretaria de Estado de Planejamento e Gestão – SEPLAG/MG
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <div class="label">Prédio:</div>
+              <div class="value">Gerais</div>
+            </div>
+            <div class="col">
+              <div class="label">Andar:</div>
+              <div class="value">3º Andar</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col full">
+              <div class="label">Telefone Comercial:</div>
+              <div class="value">(31) 3915-0000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-overlay" *ngIf="mostrarModalSenha">
+        <div class="modal-content">
+          <h3>Recuperar Senha</h3>
+          <p>Digite seu email para receber o link de redefinição:</p>
+
+          <input type="email" [(ngModel)]="emailRecuperacao" placeholder="Digite seu email"
+            [disabled]="modalProcessando" />
+
+          <div class="modal-buttons">
+            <button class="btn-confirm" (click)="enviarEmailRecuperacao()"
+              [disabled]="!emailValidoRecuperacao() || modalProcessando">
+              Enviar
+            </button>
+            <button class="btn-cancel" (click)="fecharModalSenha()" [disabled]="modalProcessando">
+              Cancelar
+            </button>
+          </div>
+
+          <div *ngIf="modalSucesso" class="modal-success">
+            📧 Se este email estiver cadastrado, você receberá um link para redefinir sua senha.
+          </div>
+        </div>
+      </div>

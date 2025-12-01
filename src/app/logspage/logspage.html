@@ -1,0 +1,76 @@
+<div *ngIf="mostrarPopup" class="popup-sucesso">
+  Senha redefinida com sucesso!
+</div>
+
+<div class="logs-container">
+  <!-- Card superior (filtros) -->
+  <div class="card filtros-card">
+    <h2 class="titulo">LOGS DE AUDITORIA</h2>
+
+    <div class="filtros">
+      <div class="campo">
+        <label for="tipoLog">Tipo de Log</label>
+        <select id="tipoLog" [(ngModel)]="tipoLog">
+          <option value="" disabled selected hidden>Selecione</option>
+          <option value="login">Login</option>
+          <option value="cadastro">Cadastro</option>
+          <option value="alteracao">Alteração</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="inicio">Data/Período</label>
+        <div class="datas">
+          <input type="date" [(ngModel)]="dataInicio">
+          <input type="time" [(ngModel)]="horaInicio">
+
+          <input type="date" [(ngModel)]="dataFim">
+          <input type="time" [(ngModel)]="horaFim">
+        </div>
+      </div>
+    </div>
+
+    <div class="acoes-filtro">
+      <button class="btn-pesquisar" (click)="pesquisar()">Pesquisar</button>
+      <button class="btn-limpar" (click)="limparFiltros()">
+        <span class="material-symbols-outlined">filter_alt_off</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Card inferior (tabela de logs) -->
+  <div class="card tabela-card">
+    <div class="tabela-header">
+      <h3></h3>
+      <button class="btn-download">
+        Download
+        <span class="material-symbols-outlined">install_desktop</span>
+      </button>
+    </div>
+
+    <table class="logs-tabela">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Hora</th>
+          <th>Usuário</th>
+          <th>Tipo</th>
+          <th>Detalhes</th>
+          <th>IP</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of logsFiltrados">
+          <td>{{ log.data }}</td>
+          <td>{{ log.hora }}</td>
+          <td>{{ log.usuario }}</td>
+          <td>{{ log.tipo }}</td>
+          <td>{{ log.detalhes }}</td>
+          <td>{{ log.ip }}</td>
+          <td>{{ log.acao }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

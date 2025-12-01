@@ -1,0 +1,154 @@
+<!-- POPUPS -->
+<div *ngIf="mostrarSucesso" class="popup-sucesso">
+  Usuário criado com sucesso!
+</div>
+
+<div *ngIf="mostrarConfirmacao" class="popup-confirmacao">
+  <div class="popup-box">
+    <p>Você realmente deseja criar este usuário?</p>
+    <button class="cancelar" (click)="cancelarCriacao()">Cancelar</button>
+    <button class="confirmar" (click)="confirmarCriacao()">Sim</button>
+  </div>
+</div>
+
+<div class="profile-container">
+  <!-- SIDEBAR -->
+  <div class="profile-sidebar">
+    <div class="profile-photo-card">
+      <div class="photo-placeholder"></div>
+      <div class="name">Lucas Tri Nascimento</div>
+    </div>
+
+    <div class="profile-permissions">
+      <div class="title">Permissões</div>
+      <button class="option" (click)="goAcesspage()" routerLink="/acessos">Acessos</button>
+
+      <button type="button" class="option usuarios-btn" (click)="toggleUsuariosSubmenu()"
+        [attr.aria-expanded]="isUsuariosSubmenuVisible" aria-haspopup="true">
+        Usuários
+        <span class="caret" [class.open]="isUsuariosSubmenuVisible">▾</span>
+      </button>
+
+      <div *ngIf="isUsuariosSubmenuVisible" class="submenu" role="menu">
+        <button type="button" (click)="goEditUserPage()" class="sub-option">Editar Usuário</button>
+        <button type="button" (click)="goDeleteUser()" class="sub-option">Excluir Usuário</button>
+      </div>
+
+      <button type="button" class="option usuarios-btn" (click)="toggleGruposSubmenu()"
+        [attr.aria-expanded]="isGruposSubmenuVisible" aria-haspopup="true">
+        Grupos de Usuário
+        <span class="caret" [class.open]="isGruposSubmenuVisible">▾</span>
+      </button>
+
+      <div *ngIf="isGruposSubmenuVisible" class="submenu" role="menu">
+        <button type="button" (click)="goAddGroupPage()" class="sub-option">Adicionar Grupo</button>
+        <button type="button" (click)="goEditGroupPage()" class="sub-option">Editar Grupo</button>
+        <button type="button" (click)="goDeleteGroupPage()" class="sub-option">Deletar Grupo</button>
+      </div>
+    </div>
+
+    <div class="profile-security">
+      <div class="title">Segurança</div>
+      <button class="option" (click)="abrirModalSenha()">Alterar Senha</button>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div class="profile-content">
+    <div class="card add-user-card">
+      <h2>ADICIONAR USUÁRIO</h2>
+
+      <div class="form-grid">
+        <div class="form-col">
+          <label for="nome">Nome</label>
+          <input id="nome" type="text" [(ngModel)]="nome" placeholder="Nome" [disabled]="formDisabled" />
+        </div>
+
+        <div class="form-col">
+          <label for="grupo">Grupo de Usuários *</label>
+          <select id="grupo" [(ngModel)]="grupo_id" [disabled]="formDisabled" (blur)="validarGrupo()"
+            [class.invalido]="grupoInvalido">
+            <option value="" disabled selected hidden>Selecione</option>
+            <option *ngFor="let g of grupos" [value]="g.id">{{ g.nome }}</option>
+          </select>
+          <div class="erro-senha" *ngIf="grupoInvalido">
+            Selecione um grupo.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-col">
+          <label for="email">Email *</label>
+          <input id="email" type="email" [(ngModel)]="email" placeholder="Email" [disabled]="formDisabled"
+          (blur)="validarEmail()" [class.invalido]="emailInvalido">
+            <div class="erro-senha" *ngIf="emailInvalido">
+            Email inválido.
+          </div>
+        </div>
+
+        <div class="form-col">
+          <label for="novaSenha">Senha *</label>
+          <input id="novaSenha" type="password" [(ngModel)]="novaSenha" placeholder="Senha" [disabled]="formDisabled"
+            (blur)="validarSenha()" [class.invalido]="senhaInvalida">
+          <div class="erro-senha" *ngIf="senhaInvalida">
+            A senha deve ter no mínimo 6 caracteres.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-col">
+          <label for="cpf">CPF *</label>
+          <input id="cpf" type="text" [(ngModel)]="cpf" placeholder="CPF" [disabled]="formDisabled"
+            (blur)="validarCpf()" (input)="formatarCpf()" maxlength="11" [class.invalido]="cpfInvalido">
+          <div class="erro-senha" *ngIf="cpfInvalido">
+            CPF inválido. Deve ter 11 números.
+          </div>
+        </div>
+
+        <div class="form-col">
+          <label for="masp">MASP</label>
+          <input id="masp" type="text" [(ngModel)]="masp" placeholder="Masp" [disabled]="formDisabled" />
+        </div>
+      </div>
+
+      <div class="form-col full">
+        <label for="senha">Digite sua senha para confirmar</label>
+        <input type="password" id="senha" [(ngModel)]="senhaConfirmar" placeholder="Digite a senha" />
+      </div>
+
+      <button class="confirm-btn" [disabled]="!formValido() || formDisabled" (click)="criarUsuario()">
+        CRIAR USUÁRIO
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE RECUPERAÇÃO DE SENHA -->
+<div class="modal-overlay" *ngIf="mostrarModalSenha">
+  <div class="modal-content">
+    <h3>Recuperar Senha</h3>
+    <p>Digite seu email para receber o link de redefinição:</p>
+
+    <input
+      type="email"
+      [(ngModel)]="emailRecuperacao"
+      placeholder="Digite seu email"
+      [disabled]="modalProcessando"
+    />
+
+    <div class="modal-buttons">
+      <button class="btn-confirm" (click)="enviarEmailRecuperacao()" [disabled]="!emailValidoRecuperacao() || modalProcessando">
+        Enviar
+      </button>
+      <button class="btn-cancel" (click)="fecharModalSenha()" [disabled]="modalProcessando">
+        Cancelar
+      </button>
+    </div>
+
+    <div *ngIf="modalSucesso" class="modal-success">
+      📧 Se este email estiver cadastrado, você receberá um link para redefinir sua senha.
+    </div>
+  </div>
+</div>

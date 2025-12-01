@@ -1,0 +1,116 @@
+<div *ngIf="mostrarPopup" class="popup-sucesso">
+  Liberação feita com sucesso!
+</div>
+
+<div class="profile-container">
+  <!-- Coluna esquerda -->
+  <div class="profile-sidebar">
+    <!-- Foto + nome -->
+    <div class="profile-photo-card">
+      <div class="photo-placeholder"></div>
+      <div class="name">Lucas Tri Nascimento</div>
+    </div>
+
+    <!-- Permissões -->
+    <div class="profile-permissions">
+      <div class="title">Permissões</div>
+      <button type="button" class="option usuarios-btn" (click)="toggleUsuariosSubmenu()"
+        [attr.aria-expanded]="isUsuariosSubmenuVisible" aria-haspopup="true">
+        Usuários
+        <span class="caret" [class.open]="isUsuariosSubmenuVisible">▾</span>
+      </button>
+
+      <div *ngIf="isUsuariosSubmenuVisible" class="submenu" role="menu">
+        <button type="button" (click)="goAddUserPage()" class="sub-option">Adicionar Usuário</button>
+        <button type="button" (click)="goEditUserPage()" class="sub-option">Editar Usuário</button>
+        <button type="button" (click)="goDeleteUser()" class="sub-option">Excluir Usuário</button>
+      </div>
+
+      <button type="button" class="option usuarios-btn" (click)="toggleGruposSubmenu()"
+        [attr.aria-expanded]="isGruposSubmenuVisible" aria-haspopup="true">
+        Grupos de Usuário
+        <span class="caret" [class.open]="isGruposSubmenuVisible">▾</span>
+      </button>
+
+      <div *ngIf="isGruposSubmenuVisible" class="submenu" role="menu">
+        <button type="button" (click)="goAddGroupPage()" class="sub-option">Adicionar Grupo</button>
+        <button type="button" (click)="goEditGroupPage()" class="sub-option">Editar Grupo</button>
+        <button type="button" (click)="goDeleteGroupPage()" class="sub-option">Deletar Grupo</button>
+      </div>
+    </div>
+
+    <!-- Segurança -->
+    <div class="profile-security">
+      <div class="title">Segurança</div>
+      <button class="option" (click)="abrirModalSenha()">Alterar Senha</button>
+    </div>
+
+    <!-- Auditoria -->
+    <div class="profile-security">
+      <div class="title">Auditoria</div>
+      <button class="option" (click)="goLogsPage()">Logs de auditoria</button>
+    </div>
+  </div>
+
+  <!-- Conteúdo principal -->
+  <div class="profile-content">
+    <div class="acessos-card">
+      <h2>ACESSOS</h2>
+
+      <label for="usuario">Usuário *</label>
+      <select id="usuario" class="access-input" [(ngModel)]="usuario" [disabled]="formDisabled">
+        <option value="" disabled selected>Selecione</option>
+        <option *ngFor="let u of usuarios" [value]="u">{{ u }}</option>
+      </select>
+
+      <label for="grupo">Grupo de Usuário *</label>
+      <select id="grupo" class="access-input" [(ngModel)]="grupo" [disabled]="formDisabled">
+        <option value="" disabled selected>Selecione</option>
+        <option *ngFor="let g of grupos" [value]="g">{{ g }}</option>
+      </select>
+
+      <label for="sistema">Sistema *</label>
+      <select id="sistema" class="access-input" [(ngModel)]="sistema" [disabled]="formDisabled">
+        <option value="" disabled selected>Selecione</option>
+        <option *ngFor="let s of sistemas" [value]="s">{{ s }}</option>
+      </select>
+
+      <label for="solucao">Solução *</label>
+      <select id="solucao" class="access-input" [(ngModel)]="solucao" [disabled]="formDisabled">
+        <option value="" disabled selected>Selecione</option>
+        <option *ngFor="let so of solucoes" [value]="so">{{ so }}</option>
+      </select>
+
+      <label for="senha">Digite sua senha para confirmar</label>
+      <input id="senha" type="password" class="access-input password-input" [(ngModel)]="senha"
+        [disabled]="formDisabled" placeholder="Senha" />
+
+      <button class="confirm-btn" [class.enabled]="formValido()" [disabled]="!formValido() || formDisabled"
+        (click)="confirmar()">
+        SALVAR ALTERAÇÃO
+      </button>
+    </div>
+
+    <div class="modal-overlay" *ngIf="mostrarModalSenha">
+      <div class="modal-content">
+        <h3>Recuperar Senha</h3>
+        <p>Digite seu email para receber o link de redefinição:</p>
+
+        <input type="email" [(ngModel)]="emailRecuperacao" placeholder="Digite seu email"
+          [disabled]="modalProcessando" />
+
+        <div class="modal-buttons">
+          <button class="btn-confirm" (click)="enviarEmailRecuperacao()"
+            [disabled]="!emailValidoRecuperacao() || modalProcessando">
+            Enviar
+          </button>
+          <button class="btn-cancel" (click)="fecharModalSenha()" [disabled]="modalProcessando">
+            Cancelar
+          </button>
+        </div>
+
+        <div *ngIf="modalSucesso" class="modal-success">
+          📧 Se este email estiver cadastrado, você receberá um link para redefinir sua senha.
+        </div>
+      </div>
+    </div>
